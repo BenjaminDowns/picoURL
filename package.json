@@ -12,5 +12,8 @@
     "express"
   ],
   "author": "Benjamin M. Downs",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "random-js": "^1.0.8"
+  }
 }
