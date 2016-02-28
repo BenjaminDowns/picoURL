@@ -1,11 +1,11 @@
-var db = 'mongodb://localhost:27017/picoURL';
+var db = 'mongodb://localhost:27017/picoLink' || MONGOLAB_URI
 var mongo = require('mongodb').MongoClient;
-var domain = 'localhost:8080/'
+var domain = 'picolink.herokuapp.com/'
 
 module.exports = function (req, res) {
    
     var url = req.params.url.toString()
-    picoURL = domain + url
+    picoLink = domain + url
     
     function connect() {
         mongo.connect(db, function (err, db) {
@@ -23,7 +23,7 @@ module.exports = function (req, res) {
 
     function getURL(db, callback) {
         db.collection('shortened')
-            .findOne({ 'picoURL': picoURL }
+            .findOne({ 'picoLink': picoLink }
             // ,{ original: 1 } use projection later
                 , function (err, doc) {
                     if (err) throw err

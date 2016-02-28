@@ -1,13 +1,13 @@
 var app = require('../app.js');
 var random = require("random-js")();
-var db = 'mongodb://localhost:27017/picoURL';
+var db = 'mongodb://localhost:27017/picoURL' || MONGOLAB_URI
 var mongo = require('mongodb').MongoClient;
 // var isURL = require('is-url')
 
 
 module.exports = function (req, res) {
 
-    var appPath = 'localhost:8080/'
+    var appPath = 'picolink.herokuapp.com/'
     var url = req.params.url.toString();
     
     var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
