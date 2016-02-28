@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "random-js": "^1.0.8",
-    "express": "^4.13.1"
+    "express": "^4.13.1",
+    "mongodb": "*"
   },
   "engines": {
       "node" : "4.2.6"
