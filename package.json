@@ -1,5 +1,5 @@
 {
-  "name": "pico-url",
+  "name": "picolink",
   "version": "1.0.0",
   "description": "Url-shortening microservice",
   "main": "app.js",
