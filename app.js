@@ -15,7 +15,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.set('views', __dirname + 'public');
 
 // routes
-app.get('/new/:url', PicoMakerService);
+app.get('/new/:url*', PicoMakerService);
 
 app.get('/:url', PicoRedirects);
 
