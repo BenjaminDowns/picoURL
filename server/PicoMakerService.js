@@ -1,28 +1,39 @@
 var app = require('../app.js');
 var random = require("random-js")();
-var db = 'mongodb://localhost:27017/picoURL';
+var db = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/picoLink'
 var mongo = require('mongodb').MongoClient;
-// var isURL = require('is-url')
 
 
 module.exports = function (req, res) {
-
-    var appPath = 'localhost:8080/'
-    var url = req.params.url.toString();
+    var url
     
+    var appPath = 'picolink.herokuapp.com/'
+    
+    if (req.params[0]) {
+        console.log("found a protocol")
+        url = req.params.url + req.params[0]
+    } else {
+        console.log("no protocol found")
+        url = req.params.url
+    }
+    
+    console.log(url)
+    var encodedURL = encodeURIComponent(url);
+    console.log(encodedURL)
+   
     var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
     var isURL = new RegExp(expression);
     
     
-    if (!isURL.test(url)) {
+    if (!isURL.test(encodedURL)) {
         res.send({error: "it appears you did not send a URL"});
         return null;
     }
     
-    var picoURL = random.string(5);
+    var picoLink = random.string(5);
     var newDoc = {
         original: url,
-        picoURL: appPath + picoURL
+        picoLink: appPath + picoLink
     };
 
     // checks to see if the original is in the db already    
@@ -44,7 +55,7 @@ module.exports = function (req, res) {
                             // send the already-stored urls
                             res.send({
                                 original: documents[0].original,
-                                picoURL: documents[0].picoURL
+                                picoLink: documents[0].picoLink
                             });
                             db.close();
                             return false;
@@ -63,7 +74,7 @@ module.exports = function (req, res) {
                         if (err) throw err
                         res.send({
                             original: newDoc.original,
-                            picoURL: newDoc.picoURL
+                            picoLink: newDoc.picoLink
                         })
                         db.close()
                     })

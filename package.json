@@ -1,10 +1,11 @@
 {
-  "name": "pico-url",
+  "name": "picolink",
   "version": "1.0.0",
   "description": "Url-shortening microservice",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [
     "url-shortening",
@@ -14,7 +15,12 @@
   "author": "Benjamin M. Downs",
   "license": "ISC",
   "dependencies": {
-    "is-url": "^1.2.1",
-    "random-js": "^1.0.8"
+    "express": "^4.13.1",
+    "mongodb": "*",
+    "random-js": "^1.0.8",
+    "serve-favicon": "^2.3.0"
+  },
+  "engines": {
+    "node": "4.2.6"
   }
 }

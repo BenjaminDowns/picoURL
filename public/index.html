@@ -9,7 +9,7 @@
 <body>
     <div class='container'>
         <div class='heading'>
-            <h2>picoURL</h2>
+            <h2>picoLink</h2>
             <small>
                    
 <pre>    <small>pico</small> <== Nano <== MICRO </pre>
@@ -20,19 +20,19 @@
             <h3>How to:</h3>
             <blockquote>
                 <p class='instructions'>
-                    1) Go to <code>https://picoURL.herokuapp.com/new/&lt;your-link-here&gt;</code>
+                    1) Go to <code>https://picoLink.herokuapp.com/new/&lt;your-link-here&gt;</code>
                     <br/>
-                    <br/> 2) picoURL returns a JSON object containing your long link and your pico'd link
+                    <br/> 2) picoLink returns a JSON object containing your long link and your pico'd link.
                 </p>
             </blockquote>
             <h3>Examples:</h3>
             <blockquote>
                 <p>
-                    Request: <code>https://header-giver.herokuapp.com/new/www.google.com</code>
+                    Request: <code>https://picolink.herokuapp.com/new/https://www.google.fr/maps/dir/Basel,+Switzerland/Minneapolis,+MN,+USA/@40.5170463,-78.1914082,3z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x479049c72769304f:0x361ceb70f36d8a90!2m2!1d7.5885761!2d47.5595986!1m5!1m1!1s0x52b333909377bbbd:0x939fc9842f7aee07!2m2!1d-93.2650108!2d44.977753?hl=en</code>
                     <br/>
                     <br/> Response: <code>{
-                                    original: "http://www.google.com",<br/>
-                                    picoURL: "https://picoURL.herokoapp.com/sldfkjsldkjf"
+                                    original: &lt;string above&gt;,
+                                    picoLink: "https://picoLink.herokoapp.com/becmdm"
                                 }</code>
                 </p>
             </blockquote>
