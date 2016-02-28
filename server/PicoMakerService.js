@@ -2,14 +2,20 @@ var app = require('../app.js');
 var random = require("random-js")();
 var db = 'mongodb://localhost:27017/picoURL';
 var mongo = require('mongodb').MongoClient;
-// mongo.connect(url)
+// var isURL = require('is-url')
+
 
 module.exports = function (req, res) {
 
-    var appPath = "http://www.picoURL.herokuapp.com/";
-    var url = req.params.url;
+    var appPath = 'localhost:8080/'
+    var url = req.params.url.toString();
     
-    if (!url) {
+    var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    var isURL = new RegExp(expression);
+    
+    
+    if (!isURL.test(url)) {
+        res.send({error: "it appears you did not send a URL"});
         return null;
     }
     
@@ -25,7 +31,6 @@ module.exports = function (req, res) {
             if (err) {
                 return err;
             } else {
-                console.log('checking for original')
                 db.collection('shortened')
                     .find({
                         original: url
@@ -36,9 +41,11 @@ module.exports = function (req, res) {
                             saveNewPico(newDoc)
                             return true;
                         } else {
-                            console.log('trying to send documents')
-                            console.log(documents)
-                            res.send(documents);
+                            // send the already-stored urls
+                            res.send({
+                                original: documents[0].original,
+                                picoURL: documents[0].picoURL
+                            });
                             db.close();
                             return false;
                         }
@@ -48,7 +55,6 @@ module.exports = function (req, res) {
     };// END findOrMakeURL
 
     function saveNewPico(newDoc) {
-        console.log('trying to insert new document')
         mongo.connect(db, function (err, db) {
             if (err) throw err
             else {
