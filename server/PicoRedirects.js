@@ -1,4 +1,4 @@
-var db = 'mongodb://localhost:27017/picoLink' || MONGOLAB_URI
+var db = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/picoLink'
 var mongo = require('mongodb').MongoClient;
 var domain = 'picolink.herokuapp.com/'
 

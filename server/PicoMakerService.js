@@ -1,6 +1,6 @@
 var app = require('../app.js');
 var random = require("random-js")();
-var db = 'mongodb://localhost:27017/picoURL' || MONGOLAB_URI
+var db = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/picoLink'
 var mongo = require('mongodb').MongoClient;
 // var isURL = require('is-url')
 
@@ -19,10 +19,10 @@ module.exports = function (req, res) {
         return null;
     }
     
-    var picoURL = random.string(5);
+    var picoLink = random.string(5);
     var newDoc = {
         original: url,
-        picoURL: appPath + picoURL
+        picoLink: appPath + picoLink
     };
 
     // checks to see if the original is in the db already    
@@ -44,7 +44,7 @@ module.exports = function (req, res) {
                             // send the already-stored urls
                             res.send({
                                 original: documents[0].original,
-                                picoURL: documents[0].picoURL
+                                picoLink: documents[0].picoLink
                             });
                             db.close();
                             return false;
@@ -63,7 +63,7 @@ module.exports = function (req, res) {
                         if (err) throw err
                         res.send({
                             original: newDoc.original,
-                            picoURL: newDoc.picoURL
+                            picoLink: newDoc.picoLink
                         })
                         db.close()
                     })
