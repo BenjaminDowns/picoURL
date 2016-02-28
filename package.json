@@ -17,6 +17,6 @@
   "dependencies": {
     "random-js": "^1.0.8",
     "express": "^4.13.1",
-    "node": "^v4.2.6"
-  }
+  },
+  "engine" : "node >= 4.2.6"
 }
