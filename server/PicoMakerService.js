@@ -1,52 +1,71 @@
-var app = require('../app.js')
+var app = require('../app.js');
 var random = require("random-js")();
-var db = 'mongodb://localhost:27017/picoURL'
-var mongo = require('mongodb').MongoClient
+var db = 'mongodb://localhost:27017/picoURL';
+var mongo = require('mongodb').MongoClient;
 // mongo.connect(url)
 
 module.exports = function (req, res) {
-    var appPath = "http://www.picoURL.herokuapp.com/"
-    var counter = 4;
-    var url = req.params.url;
-    var picoURL = random.string(counter);
-    picoURLunique = false
-    
-   
-    mongo.connect(db, function (err, db) {
-         if (err) {
-          return err
-         } else {
-          db.collection('shortened')
-            .find({
-                original: 'htt://www.google.com'
-            })
-            .toArray(function (err, documents) {
-                if (err) throw err
-                result = documents
-                if (documents.length < 1) {
-                  console.log('here')
-                  db.close();
-                  res.send({ original: url,
-                            picoURL: appPath + picoURL
-                           })
-                    }
-                    else {
-                        res.send({result: result, message: 'found this one'})
-                    }
-                })  
-          } // end else
-                // picoURLunique = true;
-    })// end mongodb call
-       
-        // query database looking for picoURL; if found, then generate a new one
-    //     while (picoURLunique === false) {
-    //     picoURL = random.string(counter+1);
-    //     picoURLunique = true;
-    // }
-    // insert key into database
-    
-    // res.send JSON with the original url and the picoURL
-    
 
+    var appPath = "http://www.picoURL.herokuapp.com/";
+    var url = req.params.url;
     
-};
+    if (!url) {
+        return null;
+    }
+    
+    var picoURL = random.string(5);
+    var newDoc = {
+        original: url,
+        picoURL: appPath + picoURL
+    };
+
+    // checks to see if the original is in the db already    
+    function findOrMakeURL() {
+        mongo.connect(db, function (err, db) {
+            if (err) {
+                return err;
+            } else {
+                console.log('checking for original')
+                db.collection('shortened')
+                    .find({
+                        original: url
+                    })
+                    .toArray(function (err, documents) {
+                        if (err) throw err;
+                        if (documents.length < 1) {
+                            saveNewPico(newDoc)
+                            return true;
+                        } else {
+                            console.log('trying to send documents')
+                            console.log(documents)
+                            res.send(documents);
+                            db.close();
+                            return false;
+                        }
+                    }); // end toArray  
+            } // end else
+        });
+    };// END findOrMakeURL
+
+    function saveNewPico(newDoc) {
+        console.log('trying to insert new document')
+        mongo.connect(db, function (err, db) {
+            if (err) throw err
+            else {
+                db.collection('shortened')
+                    .insert(newDoc, function (err, result) {
+                        if (err) throw err
+                        res.send({
+                            original: newDoc.original,
+                            picoURL: newDoc.picoURL
+                        })
+                        db.close()
+                    })
+            }
+        }); // end mongo.connect
+    } // end sendNewPico
+    
+    findOrMakeURL();
+
+
+} // end module.export
