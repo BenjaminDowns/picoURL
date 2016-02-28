@@ -14,7 +14,7 @@ module.exports = function (req, res) {
                 if (doc == null) {
                     res.send({ error: "No shortened URL found."})
                 } else {
-                res.redirect(doc.original)
+                /^https?.*/i.test(doc.original) ? res.redirect(doc.original) : res.redirect('http://' + doc.original)             
                 }
                 db.close()
             })
