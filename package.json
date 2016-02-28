@@ -15,7 +15,7 @@
   "author": "Benjamin M. Downs",
   "license": "ISC",
   "dependencies": {
-    "is-url": "^1.2.1",
-    "random-js": "^1.0.8"
+    "random-js": "^1.0.8",
+    "express": "^4.13.1"
   }
 }
