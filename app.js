@@ -6,7 +6,7 @@ var port = process.env.PORT || 8080;
 var PicoMakerService = require('./server/PicoMakerService.js');
 var PicoRedirects = require('./server/PicoRedirects');
 
-
+console.log("STARTING UP!")
 // middleware to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', __dirname + 'public');
@@ -21,3 +21,4 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port);
+console.log("listening on port " + port)
