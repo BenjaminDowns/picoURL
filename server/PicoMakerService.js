@@ -5,26 +5,15 @@ var mongo = require('mongodb').MongoClient;
 
 
 module.exports = function (req, res) {
-    var url
-    
+    var url = req.originalUrl.slice(5)
     var appPath = 'picolink.herokuapp.com/'
-    
-    if (req.params[0]) {
-        console.log("found a protocol")
-        url = req.params.url + req.params[0]
-    } else {
-        console.log("no protocol found")
-        url = req.params.url
-    }
     
     console.log(url)
     var encodedURL = encodeURIComponent(url);
-    console.log(encodedURL)
    
     var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
     var isURL = new RegExp(expression);
-    
-    
+       
     if (!isURL.test(encodedURL)) {
         res.send({error: "it appears you did not send a URL"});
         return null;
